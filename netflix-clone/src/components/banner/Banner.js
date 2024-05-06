@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./Banner.css";
-import axios from "./axios";
-import requests from "./requests";
+import localaxios from "../../utils/Axios"
+import requests from "../../utils/Requests";
 
 function Banner() {
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState([{}]);
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(requests.fetchNetflixOriginals);
-      // console.log(request.data.results);
+    (async ()=> {
+      try {
+             const request = await localaxios.get(requests.fetchNetflixOriginals);
+      console.log(request);
       setMovie(
         request.data.results[
           Math.floor(Math.random() * request.data.results.length)
         ]
       );
-      return request;
+      }catch(err) {console.log("error",err)
     }
-    fetchData();
+      
+    })()
   }, []);
 
   // console.log(movie);
